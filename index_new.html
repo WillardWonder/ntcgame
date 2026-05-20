@@ -498,3 +498,363 @@
     font-weight: 900;
     font-size: clamp(38px, 7vw, 70px);
     color: var(--paper);
+    letter-spacing: -0.01em;
+    text-shadow: 3px 3px 0 var(--ink), 0 0 28px rgba(232,184,48,0.4);
+    transform: skewX(-5deg);
+  }
+  .cs-sub {
+    color: #c0a875;
+    font-size: 13px;
+    letter-spacing: 0.15em;
+    margin-top: 6px;
+    font-style: italic;
+  }
+  .cs-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 14px;
+    max-width: 1100px;
+    margin: 0 auto;
+    z-index: 1;
+    width: 100%;
+  }
+  @media (max-width: 900px) { .cs-grid { grid-template-columns: repeat(2, 1fr); } }
+
+  .cs-card {
+    background: rgba(14,26,60,0.85);
+    border: 2px solid #2a4080;
+    padding: 14px;
+    cursor: pointer;
+    transition: transform 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
+    color: var(--paper);
+    text-align: center;
+    box-shadow: 3px 3px 0 var(--ink);
+    user-select: none;
+  }
+  .cs-card:hover {
+    border-color: var(--ntc-gold);
+    transform: translate(-2px, -2px);
+    box-shadow: 5px 5px 0 var(--ink);
+  }
+  .cs-card.selected {
+    border-color: var(--ntc-gold);
+    background: rgba(232,184,48,0.18);
+    box-shadow: 5px 5px 0 var(--ntc-gold), 0 0 28px rgba(232,184,48,0.4);
+    transform: translate(-2px, -2px);
+  }
+  .cs-portrait {
+    width: 110px; height: 110px;
+    margin: 0 auto 10px;
+    border-radius: 50%;
+    border: 3px solid var(--ntc-gold);
+    background: #0a1024;
+    overflow: hidden;
+    display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 0 18px rgba(232,184,48,0.3) inset;
+  }
+  .cs-portrait img { width: 100%; height: 100%; object-fit: cover; }
+  .cs-name {
+    color: var(--ntc-gold);
+    font-weight: bold;
+    font-size: 13px;
+    letter-spacing: 0.1em;
+    margin-bottom: 3px;
+  }
+  .cs-role {
+    color: #c0a875;
+    font-size: 9px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+  .cs-perk {
+    color: var(--paper);
+    font-size: 10px;
+    line-height: 1.4;
+    font-style: italic;
+    padding: 6px;
+    background: rgba(0,0,0,0.25);
+    border-left: 2px solid var(--ntc-gold);
+    text-align: left;
+    min-height: 38px;
+  }
+  .cs-footer {
+    margin-top: 22px;
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+    z-index: 1;
+  }
+  .cs-back, .cs-play {
+    background: transparent;
+    color: var(--paper);
+    border: 2px solid var(--paper);
+    padding: 12px 24px;
+    font-family: inherit;
+    font-size: 14px;
+    letter-spacing: 0.25em;
+    cursor: pointer;
+    box-shadow: 3px 3px 0 var(--ink);
+    text-transform: uppercase;
+    font-weight: bold;
+  }
+  .cs-back:hover { background: var(--paper); color: var(--ink); }
+  .cs-play {
+    background: var(--ntc-gold);
+    color: var(--ink);
+    border-color: var(--ink);
+  }
+  .cs-play:hover:not(:disabled) {
+    transform: translate(-2px, -2px);
+    box-shadow: 5px 5px 0 var(--ink);
+  }
+  .cs-play:disabled {
+    opacity: 0.35;
+    cursor: not-allowed;
+  }
+
+  /* Pickup floating text — pops up briefly when a paper is collected */
+  .hud-pickup {
+    position: absolute;
+    bottom: 90px; left: 50%;
+    transform: translateX(-50%) translateY(0);
+    background: rgba(232,184,48,0.95);
+    color: var(--ink);
+    padding: 8px 18px;
+    font-weight: bold;
+    font-size: 12px;
+    letter-spacing: 0.18em;
+    border: 2px solid var(--ink);
+    box-shadow: 3px 3px 0 var(--ink);
+    opacity: 0;
+    transition: opacity 0.3s ease, transform 0.6s ease;
+    pointer-events: none;
+    text-transform: uppercase;
+  }
+  .hud-pickup.show {
+    opacity: 1;
+    transform: translateX(-50%) translateY(-20px);
+  }
+
+  /* END SCREENS — busted / late / win */
+  .end-screen {
+    position: fixed; inset: 0; z-index: 80;
+    background: radial-gradient(ellipse at center, rgba(20,16,12,0.92) 0%, rgba(0,0,0,0.96) 100%);
+    display: none;
+    align-items: center; justify-content: center;
+    flex-direction: column;
+    padding: 40px 20px;
+    backdrop-filter: blur(3px);
+    color: var(--paper);
+    text-align: center;
+  }
+  .end-screen::before {
+    content: ""; position: absolute; inset: 0; pointer-events: none;
+    background: repeating-linear-gradient(
+      to bottom,
+      rgba(0,0,0,0) 0px, rgba(0,0,0,0) 2px,
+      rgba(0,0,0,0.18) 3px, rgba(0,0,0,0) 4px);
+  }
+  .end-screen.show { display: flex; }
+  .end-eyebrow {
+    font-size: 12px;
+    letter-spacing: 0.4em;
+    color: #a08868;
+    margin-bottom: 20px;
+    z-index: 1;
+  }
+  .end-title {
+    font-family: 'Georgia', serif;
+    font-style: italic;
+    font-weight: 900;
+    font-size: clamp(50px, 11vw, 110px);
+    line-height: 0.95;
+    letter-spacing: -0.02em;
+    transform: skewX(-6deg);
+    z-index: 1;
+    margin-bottom: 18px;
+  }
+  .busted-title {
+    color: var(--danger-red);
+    text-shadow: 4px 4px 0 var(--ink), 0 0 35px rgba(216,58,58,0.6);
+  }
+  .end-subtitle {
+    font-family: 'Courier New', monospace;
+    font-size: 14px;
+    letter-spacing: 0.35em;
+    color: var(--danger-red);
+    margin-top: -8px;
+    margin-bottom: 18px;
+    text-transform: uppercase;
+    z-index: 1;
+  }
+  .late-title {
+    color: var(--ntc-gold);
+    text-shadow: 4px 4px 0 var(--ink), 0 0 35px rgba(232,184,48,0.6);
+  }
+  .win-title {
+    color: var(--ntc-gold);
+    text-shadow:
+      3px 3px 0 var(--ntc-navy),
+      6px 6px 0 var(--ink),
+      0 0 40px rgba(232,184,48,0.7);
+  }
+  .end-body {
+    color: #c4a877;
+    font-size: 14px;
+    line-height: 1.7;
+    max-width: 480px;
+    margin: 4px 0 22px 0;
+    z-index: 1;
+  }
+  .win-howl {
+    color: var(--ntc-gold);
+    font-size: 14px;
+    letter-spacing: 0.35em;
+    margin: 10px 0 22px 0;
+    z-index: 1;
+    animation: howl-bob 1.6s ease-in-out infinite;
+  }
+  @keyframes howl-bob {
+    0%,100% { transform: translateY(0); }
+    50%     { transform: translateY(-6px); }
+  }
+  .end-btn {
+    background: var(--paper);
+    color: var(--ink);
+    border: 3px solid var(--ink);
+    padding: 14px 28px;
+    font-family: inherit;
+    font-size: 16px;
+    font-weight: bold;
+    letter-spacing: 0.25em;
+    cursor: pointer;
+    box-shadow: 4px 4px 0 var(--ink);
+    text-transform: uppercase;
+    z-index: 1;
+    transition: transform 0.12s ease;
+  }
+  .end-btn:hover { transform: translate(-2px, -2px); box-shadow: 6px 6px 0 var(--ink); }
+  .end-btn:active { transform: translate(2px, 2px); box-shadow: 2px 2px 0 var(--ink); }
+  .busted-btn { background: var(--danger-red); color: var(--paper); }
+  .late-btn { background: var(--ntc-gold); }
+  .win-btn { background: var(--ntc-gold); }
+</style>
+</head>
+<body>
+  <canvas id="game"></canvas>
+
+  <!-- TITLE SCREEN -->
+  <div id="title-screen">
+    <div class="title-wordmark">
+      <div class="title-eyebrow">NTC TIMBERWOLVES PRESENTS · FALL '26</div>
+      <div class="title-main">CORRECT<br><span class="accent">COURSE</span></div>
+      <div class="title-sub">— choose your NTC instructor · dodge the dean —</div>
+    </div>
+    <div class="title-poster">
+      <div class="title-bullets">
+        It's <b>8:52 AM</b>. Choose a <b>super amazing NTC instructor</b>. Class starts at <b>9:00</b>.<br>
+        <b>Dean Jason</b> is roaming the halls of <b>Northcentral Technical College</b>,
+        hunting faculty for their <b>annual FLIP review</b>.<br>
+        The documentation is not ready, and nobody has time for that meeting today.<br>
+        <b>Select your professor. Reach class. Stun him with paperwork. Avoid the FLIP.</b>
+      </div>
+      <button id="start-btn" class="start-btn">▶ Sneak To Class</button>
+      <div class="controls-row">
+        <span><span class="key">W</span><span class="key">A</span><span class="key">S</span><span class="key">D</span> Move</span>
+        <span><span class="key">SHIFT</span> Sprint</span>
+        <span><span class="key">SPACE</span> Throw Paperwork</span>
+        <span><span class="key">Q</span><span class="key">E</span> Turn Cam</span>
+        <span><span class="key">ESC</span> Pause</span>
+      </div>
+    </div>
+    <div class="credits">GO TIMBERWOLVES · WAUSAU, WI</div>
+  </div>
+
+  <!-- CHARACTER SELECT SCREEN — appears between title and loading -->
+  <div id="char-select-screen">
+    <div class="cs-header">
+      <div class="cs-eyebrow">— FACULTY ROSTER · CHOOSE YOUR PROFESSOR —</div>
+      <div class="cs-title">SELECT INSTRUCTOR</div>
+      <div class="cs-sub">All faculty have outstanding documentation. Pick your runner.</div>
+    </div>
+    <div class="cs-grid" id="cs-grid">
+      <!-- character cards injected at runtime from CHARACTERS data -->
+    </div>
+    <div class="cs-footer">
+      <button class="cs-back" id="cs-back-btn">← Back</button>
+      <button class="cs-play" id="cs-play-btn" disabled>▶ Sneak To Class</button>
+    </div>
+  </div>
+
+  <!-- LOADING -->
+  <div id="loading">
+    <div class="loading-text">UNZIPPING BACKPACK…</div>
+    <div class="loading-bar-frame"><div class="loading-bar-fill" id="loading-bar"></div></div>
+  </div>
+
+  <!-- HUD -->
+  <div id="hud">
+    <div class="hud-scanlines"></div>
+    <div class="hud-vignette"></div>
+    <div class="hud-room" id="hud-room">LOBBY</div>
+    <div class="hud-time" id="hud-time"><span class="small">BELL RINGS AT 9:00 AM</span><br>08:52 AM</div>
+    <div class="hud-info">
+      <div class="label">▸ NTC INSTRUCTOR</div>
+      Reach <span class="label" id="hud-info-room">ROOM 217</span>. Avoid <span class="label">DEAN JASON'S</span> sight cone. <span class="key">SHIFT</span> sprint, <span class="key">Q</span><span class="key">E</span> turn cam.
+    </div>
+    <div class="hud-pause-hint"><span class="key">ESC</span> pause</div>
+    <div class="hud-toast" id="hud-toast">ENTERED LOBBY</div>
+    <div class="hud-warning" id="hud-warning">⚠ DEAN SPOTTED YOU</div>
+    <div class="hud-dean-bark" id="hud-dean-bark">“STOP RIGHT THERE!”</div>
+
+    <!-- AMMO BAR — paperwork inventory + active type -->
+    <div class="hud-ammo" id="hud-ammo">
+      <div class="ammo-icon" id="ammo-icon">📋</div>
+      <div class="ammo-count">
+        <div class="ammo-num" id="ammo-num">0</div>
+        <div class="ammo-label" id="ammo-label">PAPERWORK</div>
+      </div>
+      <div class="ammo-throw"><span class="key">SPACE</span> THROW</div>
+    </div>
+    <!-- Floating pickup toast (above ammo bar) -->
+    <div class="hud-pickup" id="hud-pickup">+1 WORKDAY REQUEST</div>
+    <div class="hud-objective" id="hud-objective">
+      <span class="obj-icon">▸</span>
+      <span class="obj-text" id="hud-objective-text">Get to <b>ROOM 217</b> before 9:00 AM</span>
+    </div>
+  </div>
+
+  <!-- PAUSE -->
+  <div id="pause-screen">
+    <div class="pause-title">PAUSED</div>
+    <button class="pause-btn" id="resume-btn">▶ Resume</button>
+    <button class="pause-btn" id="restart-btn">↻ Restart</button>
+    <button class="pause-btn" id="title-btn">⌂ Title</button>
+  </div>
+
+  <!-- BUSTED (Dean caught you — annual FLIP review) -->
+  <div id="busted-screen" class="end-screen">
+    <div class="end-eyebrow">— ANNUAL REVIEW · CONFERENCE ROOM B —</div>
+    <div class="end-title busted-title">FLIP REVIEW</div>
+    <div class="end-subtitle">Faculty Level Identification Performance</div>
+    <div class="end-body" id="busted-body">
+      Dean Jason has cornered your chosen instructor.<br>
+      The annual FLIP review has begun. The documentation is not finished.<br>
+      <i>The next 90 minutes are going to feel like 90 years.</i>
+    </div>
+    <button class="end-btn busted-btn" id="busted-retry">↻ Try Again</button>
+  </div>
+
+  <!-- LATE (clock ran out) -->
+  <div id="late-screen" class="end-screen">
+    <div class="end-eyebrow">— THE BELL HAS RUNG —</div>
+    <div class="end-title late-title">LATE TO CLASS</div>
+    <div class="end-body" id="late-body">
+      It's 9:00 and your students are unsupervised.<br>
+      Your chosen instructor never made it to class.
+    </div>
+    <button class="end-btn late-btn" id="late-retry">↻ Try Again</button>
+  </div>
+
+
